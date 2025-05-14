@@ -10,8 +10,17 @@ You will need to have the following installed on your machine:
 
 ### Steps
 
-1. Pull the docker image containing the trades database `ghcr.io/dora-network/dora-sre-test:latest`
-2. Start the postgres database container, it needs a little time to start up and import the data as there's a lot of it
+1. Pull the docker image containing the trades database `guoguojin/sre-test:latest`
+
+  ```bash
+  docker pull guoguojin/sre-test:latest
+  ```
+
+2. Start the Postgres database container, it needs a little time to start up and import the data as there's a lot of it
+
+  ```bash
+  docker run -d --rm --name postgres -p 5432:5432 -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres guoguojin/sre-test:latest
+  ```
 
 ## Task
 
@@ -26,4 +35,22 @@ The script should be able to handle the following scenarios:
 - Missing trades in the data set
 
 The script should be time efficient and should be able to process the data in a reasonable amount of time.
+
+
+## Additional Information
+
+You can connect to the Postgres database using the following command:
+
+```bash
+docker exec -it postgres psql -U postgres
+```
+
+
+You will know when the database is ready when you can count the number of rows in the `trades` table:
+
+```sql
+select count(*) from trades;
+```
+
+and there are 20 million rows in the table.
 
